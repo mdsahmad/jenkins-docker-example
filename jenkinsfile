@@ -8,14 +8,14 @@ pipeline{
             steps{
                 git branch: 'main', url: 'https://github.com/mdsahmad/jenkins-docker-example.git'
 
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+                bat "mvn -Dmaven.test.failure.ignore=true clean package"
                 
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
-                  sh 'docker build -t devopshint/my-app-1.0 .'
+                  bat 'docker build -t devopshint/my-app-1.0 .'
                 }
             }
         }
@@ -23,9 +23,9 @@ pipeline{
             steps {
                 script {
                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                    sh 'docker login -u devopshint -p ${dockerhubpwd}'
+                    bat 'docker login -u devopshint -p ${dockerhubpwd}'
                  }  
-                 sh 'docker push devopshint/my-app-1.0'
+                 bat 'docker push devopshint/my-app-1.0'
                 }
             }
         }
